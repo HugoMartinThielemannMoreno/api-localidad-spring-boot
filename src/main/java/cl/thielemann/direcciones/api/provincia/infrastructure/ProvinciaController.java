@@ -1,5 +1,7 @@
-package cl.thielemann.direcciones.api.comuna;
+package cl.thielemann.direcciones.api.provincia.infrastructure;
 
+import cl.thielemann.direcciones.api.provincia.domain.Provincia;
+import cl.thielemann.direcciones.api.provincia.application.ProvinciaServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,32 +17,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/comunas")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class ComunaController {
-    private ComunaServiceImpl service;
+@RequestMapping(path = "/provincias")
+public class ProvinciaController {
+    private ProvinciaServiceImpl service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Comuna> createOrUpdate(@RequestBody Comuna comuna) {
-        return new ResponseEntity<>(service.createOrUpdate(comuna), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<Provincia> createOrUpdate(@RequestBody Provincia provincia) {
+        return new ResponseEntity<>(service.createOrUpdate(provincia), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Comuna> findById(@PathVariable Long id) {
-        return new ResponseEntity<>(service.findById(id), new HttpHeaders(), HttpStatus.FOUND);
+    @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Provincia> findById(@PathVariable UUID uuid) {
+        return new ResponseEntity<>(service.findById(uuid), new HttpHeaders(), HttpStatus.FOUND);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Comuna>> findAll() {
+    public ResponseEntity<List<Provincia>> findAll() {
         return new ResponseEntity<>(service.findAll(), new HttpHeaders(), HttpStatus.FOUND);
     }
 
-    @DeleteMapping(path = "/{id}")
-    public HttpStatus deleteById(@PathVariable Long id) {
-        service.deleteById(id);
+    @DeleteMapping(path = "/{uuid}")
+    public HttpStatus deleteById(@PathVariable UUID uuid) {
+        service.deleteById(uuid);
         return HttpStatus.FORBIDDEN;
     }
-
 }

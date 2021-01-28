@@ -1,5 +1,8 @@
-package cl.thielemann.direcciones.api.region;
+package cl.thielemann.direcciones.api.region.application;
 
+import cl.thielemann.direcciones.api.region.domain.Region;
+import cl.thielemann.direcciones.api.region.domain.RegionRepository;
+import cl.thielemann.direcciones.api.region.domain.RegionService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -15,7 +19,7 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     public Region createOrUpdate(Region region) {
-        Optional<Region> optional = repository.findById(region.getId());
+        Optional<Region> optional = repository.findById(region.getUuid());
         if (optional.isPresent()) {
             Region updatable = optional.get();
             updatable.setName(region.getName());
@@ -27,8 +31,8 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public Region findById(Long id) {
-        Optional<Region> optional = repository.findById(id);
+    public Region findById(UUID uuid) {
+        Optional<Region> optional = repository.findById(uuid);
         if (optional.isPresent()) {
             return optional.get();
         }
@@ -45,7 +49,7 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        repository.deleteById(id);
+    public void deleteById(UUID uuid) {
+        repository.deleteById(uuid);
     }
 }

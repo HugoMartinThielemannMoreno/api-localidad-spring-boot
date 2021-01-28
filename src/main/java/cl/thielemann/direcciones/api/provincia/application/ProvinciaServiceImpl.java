@@ -1,5 +1,8 @@
-package cl.thielemann.direcciones.api.provincia;
+package cl.thielemann.direcciones.api.provincia.application;
 
+import cl.thielemann.direcciones.api.provincia.domain.Provincia;
+import cl.thielemann.direcciones.api.provincia.domain.ProvinciaRepository;
+import cl.thielemann.direcciones.api.provincia.domain.ProvinciaService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -15,7 +19,7 @@ public class ProvinciaServiceImpl implements ProvinciaService {
 
     @Override
     public Provincia createOrUpdate(Provincia provincia) {
-        Optional<Provincia> optional = repository.findById(provincia.getId());
+        Optional<Provincia> optional = repository.findById(provincia.getUuid());
         if (optional.isPresent()) {
             Provincia updatable = optional.get();
             updatable.setName(provincia.getName());
@@ -28,8 +32,8 @@ public class ProvinciaServiceImpl implements ProvinciaService {
     }
 
     @Override
-    public Provincia findById(Long id) {
-        Optional<Provincia> optional = repository.findById(id);
+    public Provincia findById(UUID uuid) {
+        Optional<Provincia> optional = repository.findById(uuid);
         if (optional.isPresent()) {
             return optional.get();
         }
@@ -46,7 +50,7 @@ public class ProvinciaServiceImpl implements ProvinciaService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        repository.deleteById(id);
+    public void deleteById(UUID uuid) {
+        repository.deleteById(uuid);
     }
 }
